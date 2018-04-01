@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# package
+mvn clean
+mvn package
+
+# call undeploy to run integration tests
+./undeploy
+mvn verify
+
+# call redeploy
+./redeploy

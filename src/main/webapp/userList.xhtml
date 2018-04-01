@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+  <title>User list</title>
+
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+  <h:panelGroup rendered="#{!uc.edit}">
+    <h3 style="text-align: center;">Add New User</h3>
+    <h:form class="form-style-1">
+      <h:panelGrid columns="2">
+        <h:outputLabel value="First Name : " />
+        <h:inputText value="#{uc.user.fname}" />
+        <h:outputLabel value="Last Name :" />
+        <h:inputText value="#{uc.user.lname}" />
+        <h:outputLabel value="Birth Date (yyyy-MM-dd) : " />
+        <h:inputText value="#{uc.user.dob}">
+          <f:convertDateTime pattern="yyyy-MM-dd" />
+        </h:inputText>
+        <h:outputLabel value="Email : " />
+        <h:inputText value="#{uc.user.email}">
+          <f:validateRegex
+            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+        </h:inputText>
+        <h:outputLabel value="User Name : " />
+        <h:inputText value="#{uc.user.uname}" />
+        <h:outputLabel value="Password : " />
+        <h:inputSecret value="#{uc.user.pass}" />
+        <h:outputLabel value="Security Question : " />
+        <h:inputText value="#{uc.user.securityQuestion}" />
+        <h:outputLabel value="Answer : " />
+        <h:inputText value="#{uc.user.securityAnswer}" />
+        <h:outputLabel value="" />
+        <h:commandButton value="Add" action="#{uc.addUser()}" />
+      </h:panelGrid>
+    </h:form>
+  </h:panelGroup>
+
+  <h:panelGroup rendered="#{uc.edit}">
+    <h3 style="text-align: center;">Edit User : #{uc.user.id}</h3>
+    <h:form class="form-style-1">
+      <h:panelGrid columns="2">
+        <h:outputLabel value="First Name : " />
+        <h:inputText value="#{uc.user.fname}" />
+        <h:outputLabel value="Last Name :" />
+        <h:inputText value="#{uc.user.lname}" />
+        <h:outputLabel value="Birth Date : " />
+        <h:inputText value="#{uc.user.dob}">
+          <f:convertDateTime pattern="yyyy-MM-dd" />
+        </h:inputText>
+        <h:outputLabel value="Email : " />
+        <h:inputText value="#{uc.user.email}">
+          <f:validateRegex
+            pattern="^[_A-Za-z0-9-\+]+
+                        (\.[_A-Za-z0-9-]+)*
+                        @[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*
+                        (\.[A-Za-z]{2,})$" />
+        </h:inputText>
+        <h:outputLabel value="User Name : " />
+        <h:inputText value="#{uc.user.uname}" />
+        <h:outputLabel value="Password : " />
+        <h:inputSecret value="#{uc.user.pass}" />
+        <h:outputLabel value="Security Question : " />
+        <h:inputText value="#{uc.user.securityQuestion}" />
+        <h:outputLabel value="Answer : " />
+        <h:inputText value="#{uc.user.securityAnswer}" />
+        <h:outputLabel value="" />
+        <h:commandButton value="Save" action="#{uc.saveUser()}" />
+      </h:panelGrid>
+
+    </h:form>
+  </h:panelGroup>
+
+  <h:form rendered="#{not empty uc.list}">
+    <h:dataTable class="table-style-1" value="#{uc.list}" var="usr">
+      <h:column>
+        <f:facet name="header">
+          <h:outputText value="ID" />
+        </f:facet>
+        <h:outputText value="#{usr.id}" />
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+          <h:outputText value="First Name" />
+        </f:facet>
+        <h:outputText value="#{usr.fname}" />
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+          <h:outputText value="Last Name" />
+        </f:facet>
+        <h:outputText value="#{usr.lname}" />
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+          <h:outputText value="Birth Date" />
+        </f:facet>
+        <h:outputText value="#{usr.dob}">
+          <f:convertDateTime pattern="yyyy-MM-dd" />
+        </h:outputText>
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+          <h:outputText value="Registration Date">
+          <!-- TODO format the timestampt -->
+          </h:outputText>
+        </f:facet>
+        <h:outputText value="#{usr.regdate}" />
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+          <h:outputText value="User Name" />
+        </f:facet>
+        <h:outputText value="#{usr.uname}" />
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+          <h:outputText value="Password" />
+        </f:facet>
+        <h:outputText value="#{usr.pass}" />
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+          <h:outputText value="Security Question" />
+        </f:facet>
+        <h:outputText value="#{usr.securityQuestion}" />
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+          <h:outputText value="Security Answer" />
+        </f:facet>
+        <h:outputText value="#{usr.securityAnswer}" />
+      </h:column>
+      <h:column>
+        <h:commandLink value="edit" action="#{uc.editUser(usr)}" /> |
+               <h:commandLink value="delete"
+          action="#{uc.deleteUser(usr)}" />
+      </h:column>
+    </h:dataTable>
+  </h:form>
+
+  <h:panelGroup rendered="#{empty uc.list}">
+    <h3 style="text-align: center;">Empty Table. Add New User.</h3>
+  </h:panelGroup>
+
+</h:body>
+</html>
